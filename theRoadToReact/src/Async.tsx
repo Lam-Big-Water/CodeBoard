@@ -5,28 +5,46 @@ type InitData = {id: number; title: string;}
 const posts = [
     {id: 1, title: 'async'},
     {id: 2, title: 'sync'},
-]
+];
+
+
+
+const getDataByAsyncWay = (): Promise<{data: InitData[]}> => {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve({data:posts})
+        }, 2000)
+    })
+}
+
+const useLocalStorage = (key: string, init: string): [string, (v: string) => void] => {
+    const [value, setValue] = useState(localStorage.getItem(key) || init);
+
+    useEffect(() => {
+        localStorage.setItem(key, value);
+    }, [key, value]);
+
+    return [value, setValue];
+
+}
 
 const Async = () => {
 
-    const useLocalStorage = (key: string, init: string): [string, (v: string) => void] => {
-        const [value, setValue] = useState(localStorage.getItem(key) || init);
-
-        useEffect(() => {
-            localStorage.setItem(key, value);
-        }, [key, value]);
-
-        return [value, setValue];
-
-    }
-
     const [search, setSearch] = useLocalStorage('async', 'a');
+
+    const [asyncData, setAsyncData] = useState<InitData[]>([]);
+
+    useEffect(() => {
+        getDataByAsyncWay().then((result) => {
+            setAsyncData(result.data);
+        })
+    }, [])
 
     const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
         setSearch(event.target.value);
     }
 
-    const filtered = posts.filter((post) => post.title.toLowerCase().includes(search.toLowerCase()));
+    const filtered = asyncData.filter((post) => post.title.toLowerCase().includes(search.toLowerCase()));
     
   return (
     <div className="app">
