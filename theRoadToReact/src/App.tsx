@@ -6,6 +6,7 @@ import Custom from './Custom';
 import Ref from './Ref';
 import Async from './Async';
 import Remove from './Remove';
+import Conditional from './Conditional';
 
 import './App.css';
 
@@ -19,6 +20,7 @@ const App = () => {
                 <Link to="/ref">Ref</Link>
                 <Link to="/async">Async</Link>
                 <Link to="/remove">remove</Link>
+                <Link to="/conditional">conditional</Link>
             </nav>
 
             <Routes>
@@ -28,6 +30,7 @@ const App = () => {
                 <Route path="/ref" element={<Ref />}/>
                 <Route path="/async" element={<Async />}/>
                 <Route path="/remove" element={<Remove />}/>
+                <Route path="/conditional" element={<Conditional />}/>
             </Routes>
         </div>
     )
