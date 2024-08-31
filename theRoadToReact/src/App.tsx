@@ -7,7 +7,10 @@ import Ref from './Ref';
 import Async from './Async';
 import Remove from './Remove';
 import Conditional from './Conditional';
-
+import Reducer from './Reducer';
+import Impossible from './ImpossibleState';
+import DataFetching from './DataFetching';
+ 
 import './App.css';
 
 const App = () => {
@@ -21,6 +24,9 @@ const App = () => {
                 <Link to="/async">Async</Link>
                 <Link to="/remove">remove</Link>
                 <Link to="/conditional">conditional</Link>
+                <Link to="/reducer">reducer</Link>
+                <Link to="/impossible">impossible</Link>
+                <Link to="/dataFetching">dataFetching</Link>
             </nav>
 
             <Routes>
@@ -31,6 +37,9 @@ const App = () => {
                 <Route path="/async" element={<Async />}/>
                 <Route path="/remove" element={<Remove />}/>
                 <Route path="/conditional" element={<Conditional />}/>
+                <Route path="/reducer" element={<Reducer />}/>
+                <Route path="/impossible" element={<Impossible />}/>
+                <Route path="/dataFetching" element={<DataFetching />}/>
             </Routes>
         </div>
     )
