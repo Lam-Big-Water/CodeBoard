@@ -10,7 +10,8 @@ import Conditional from './Conditional';
 import Reducer from './Reducer';
 import Impossible from './ImpossibleState';
 import DataFetching from './DataFetching';
-import Refetching from './ReFetching'
+import Refetching from './ReFetching';
+import Memoized from './Memoized';
  
 import './App.css';
 
@@ -29,6 +30,7 @@ const App = () => {
                 <Link to="/impossible">impossible</Link>
                 <Link to="/dataFetching">dataFetching</Link>
                 <Link to="/refetching">refetching</Link>
+                <Link to="/memoized">memoized</Link>
             </nav>
 
             <Routes>
@@ -43,6 +45,7 @@ const App = () => {
                 <Route path="/impossible" element={<Impossible />}/>
                 <Route path="/dataFetching" element={<DataFetching />}/>
                 <Route path="/refetching" element={<Refetching />}/>
+                <Route path="/memoized" element={<Memoized />}/>
             </Routes>
         </div>
     )
