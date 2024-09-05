@@ -12,6 +12,7 @@ import Impossible from './ImpossibleState';
 import DataFetching from './DataFetching';
 import Refetching from './ReFetching';
 import Memoized from './Memoized';
+import Explicit from './Explicit';
  
 import './App.css';
 
@@ -31,6 +32,7 @@ const App = () => {
                 <Link to="/dataFetching">dataFetching</Link>
                 <Link to="/refetching">refetching</Link>
                 <Link to="/memoized">memoized</Link>
+                <Link to="/explicit">explicit</Link>
             </nav>
 
             <Routes>
@@ -46,6 +48,7 @@ const App = () => {
                 <Route path="/dataFetching" element={<DataFetching />}/>
                 <Route path="/refetching" element={<Refetching />}/>
                 <Route path="/memoized" element={<Memoized />}/>
+                <Route path="/explicit" element={<Explicit />}/>
             </Routes>
         </div>
     )
