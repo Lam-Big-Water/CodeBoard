@@ -13,6 +13,7 @@ import DataFetching from './DataFetching';
 import Refetching from './ReFetching';
 import Memoized from './Memoized';
 import Explicit from './Explicit';
+import Axios from './Axios';
  
 import './App.css';
 
@@ -33,6 +34,7 @@ const App = () => {
                 <Link to="/refetching">refetching</Link>
                 <Link to="/memoized">memoized</Link>
                 <Link to="/explicit">explicit</Link>
+                <Link to="/axios">Axios</Link>
             </nav>
 
             <Routes>
@@ -49,6 +51,7 @@ const App = () => {
                 <Route path="/refetching" element={<Refetching />}/>
                 <Route path="/memoized" element={<Memoized />}/>
                 <Route path="/explicit" element={<Explicit />}/>
+                <Route path="/axios" element={<Axios />}/>
             </Routes>
         </div>
     )
