@@ -14,6 +14,7 @@ import Refetching from './ReFetching';
 import Memoized from './Memoized';
 import Explicit from './Explicit';
 import Axios from './Axios';
+import AsyncAwait from './Async&Await'
  
 import './App.css';
 
@@ -35,6 +36,7 @@ const App = () => {
                 <Link to="/memoized">memoized</Link>
                 <Link to="/explicit">explicit</Link>
                 <Link to="/axios">Axios</Link>
+                <Link to="/asyncAwait">AsyncAwait</Link>
             </nav>
 
             <Routes>
@@ -52,6 +54,7 @@ const App = () => {
                 <Route path="/memoized" element={<Memoized />}/>
                 <Route path="/explicit" element={<Explicit />}/>
                 <Route path="/axios" element={<Axios />}/>
+                <Route path="/asyncAwait" element={<AsyncAwait />}/>
             </Routes>
         </div>
     )
