@@ -15,6 +15,7 @@ import Memoized from './Memoized';
 import Explicit from './Explicit';
 import Axios from './Axios';
 import AsyncAwait from './Async&Await'
+import Form from './Form'
  
 import './App.css';
 
@@ -37,6 +38,7 @@ const App = () => {
                 <Link to="/explicit">explicit</Link>
                 <Link to="/axios">Axios</Link>
                 <Link to="/asyncAwait">AsyncAwait</Link>
+                <Link to="/form">Form</Link>
             </nav>
 
             <Routes>
@@ -55,6 +57,7 @@ const App = () => {
                 <Route path="/explicit" element={<Explicit />}/>
                 <Route path="/axios" element={<Axios />}/>
                 <Route path="/asyncAwait" element={<AsyncAwait />}/>
+                <Route path="/form" element={<Form />}/>
             </Routes>
         </div>
     )
