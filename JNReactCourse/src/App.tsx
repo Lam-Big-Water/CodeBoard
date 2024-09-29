@@ -14,6 +14,10 @@ const App = () => {
 
   const handleAddItems = (item: ItemType) => setSubmitV((submitV) => [...submitV, item]);
 
+  const handleToggleItem = (id: number) => {
+    setSubmitV((submitV) => submitV.map((item) => item.id === id ? {...item, packed: !item.packed} : item))
+  }
+
 
 
   return (
@@ -28,7 +32,7 @@ const App = () => {
       </header>
 
       <main className="operation">
-        <EventArea />
+        <EventArea lists={submitV} toggleItem={handleToggleItem}/>
       </main>
 
       <footer className="record">
@@ -75,15 +79,19 @@ const AddEvent = ({onAddItems}: AddEventProps) => {
   );
 };
 
-const EventArea = () => {
-  const arr = [1, 2, 3, 4, 5];
+type EventAreaProps = {
+  lists: ItemType[];
+  toggleItem: (id: number) => void;
+}
+
+const EventArea = ({lists, toggleItem}: EventAreaProps) => {
 
   return (
     <>
       <div className="operation-event">
         <ul>
-          {arr.map((i) => (
-            <Item item={i} />
+          {lists.map((i) => (
+            <Item key={i.id} item={i} onToggleItem={toggleItem}/>
           ))}
         </ul>
       </div>
@@ -95,12 +103,15 @@ const EventArea = () => {
   );
 };
 
-type ItemProps = { item: number };
+type ItemProps = { item: ItemType; onToggleItem: (id: number) => void; };
 
-const Item = ({ item }: ItemProps) => {
+const Item = ({ item, onToggleItem }: ItemProps) => {
   return (
     <>
-      <li>{item}</li>
+      <li>
+        <input type="checkbox" value={item.packed} onChange={() => onToggleItem(item.id)}/>
+        {item.inputV}
+      </li>
     </>
   );
 };
