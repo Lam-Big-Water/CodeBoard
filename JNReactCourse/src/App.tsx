@@ -16,7 +16,12 @@ const App = () => {
 
   const handleToggleItem = (id: number) => {
     setSubmitV((submitV) => submitV.map((item) => item.id === id ? {...item, packed: !item.packed} : item))
-  }
+  };
+
+  const handleRemoveItem = (id: number) => {
+    const newPosts = submitV.filter((item) => item.id !== id);
+    setSubmitV(newPosts);
+  };
 
 
 
@@ -27,12 +32,13 @@ const App = () => {
         <div className="header-addEvent">
           <AddEvent
             onAddItems={handleAddItems}
+            
           />
         </div>
       </header>
 
       <main className="operation">
-        <EventArea lists={submitV} toggleItem={handleToggleItem}/>
+        <EventArea lists={submitV} toggleItem={handleToggleItem} RemoveItems={handleRemoveItem}/>
       </main>
 
       <footer className="record">
@@ -82,16 +88,17 @@ const AddEvent = ({onAddItems}: AddEventProps) => {
 type EventAreaProps = {
   lists: ItemType[];
   toggleItem: (id: number) => void;
+  RemoveItems: (id: number) => void;
 }
 
-const EventArea = ({lists, toggleItem}: EventAreaProps) => {
+const EventArea = ({lists, toggleItem, RemoveItems}: EventAreaProps) => {
 
   return (
     <>
       <div className="operation-event">
         <ul>
           {lists.map((i) => (
-            <Item key={i.id} item={i} onToggleItem={toggleItem}/>
+            <Item key={i.id} item={i} onToggleItem={toggleItem} onRemoveItems={RemoveItems}/>
           ))}
         </ul>
       </div>
@@ -103,14 +110,19 @@ const EventArea = ({lists, toggleItem}: EventAreaProps) => {
   );
 };
 
-type ItemProps = { item: ItemType; onToggleItem: (id: number) => void; };
+type ItemProps = {
+  item: ItemType;
+  onToggleItem: (id: number) => void; 
+  onRemoveItems: (id: number) => void;
+};
 
-const Item = ({ item, onToggleItem }: ItemProps) => {
+const Item = ({ item, onToggleItem, onRemoveItems }: ItemProps) => {
   return (
     <>
-      <li>
+      <li style={item.packed ? {textDecoration: 'line-through'} : {}}>
         <input type="checkbox" value={item.packed} onChange={() => onToggleItem(item.id)}/>
         {item.inputV}
+        <span onClick={() => onRemoveItems(item.id)}>-close</span>
       </li>
     </>
   );
