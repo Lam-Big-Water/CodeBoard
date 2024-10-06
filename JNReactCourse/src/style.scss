@@ -70,7 +70,7 @@ p, h1, h2, h3, h4, h5, h6 {
   flex-wrap: nowrap;
   gap: 2rem;
 
-  max-width: 80rem;
+  width: 80rem;
   
 }
 
@@ -79,6 +79,57 @@ p, h1, h2, h3, h4, h5, h6 {
 
   display: flex;
   flex-direction: column;
+  gap: 2rem;
+
+
+  .list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    .userInterface {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      grid-template-areas: 
+      "avatar name name select"
+      "avatar notes notes select";
+      gap: .5rem;
+      align-items: center;
+
+      &-avatar {
+        width: 3rem;
+        grid-area: avatar;
+
+        border-radius: 50%;
+      }
+
+      &-userName {
+        grid-area: name;
+      }
+
+      &-notes {
+        grid-area: notes;
+      }
+
+      &-selectUser {
+        grid-area: select;
+      }
+    }
+  }
+
+  .addFriends {
+    
+    &-form {
+      display: grid;
+      grid-template-columns: 1fr 8rem;
+      grid-template-rows: auto;
+      gap: 2rem;
+    }
+    
+  }
+
+
 
 }
 
