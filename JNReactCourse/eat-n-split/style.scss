@@ -1,0 +1,151 @@
+/*
+  1. Use a more-intuitive box-sizing model.
+*/
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/*
+  2. Remove default margin
+*/
+* {
+  margin: 0;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+/*
+  Typographic tweaks!
+  3. Add accessible line-height
+  4. Improve text rendering
+*/
+body {
+  width: 100%;
+  height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: aquamarine;
+
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/*
+  5. Improve media defaults
+*/
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+/*
+  6. Remove built-in form typography styles
+*/
+input, button, textarea, select {
+  font: inherit;
+}
+
+/*
+  7. Avoid text overflows
+*/
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+/*
+  8. Create a root stacking context
+*/
+#root, #__next {
+  isolation: isolate;
+}
+
+.app {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 2rem;
+
+  width: 80rem;
+  
+}
+
+.friendList {
+  flex-basis: 40%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+
+  .list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    .userInterface {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      grid-template-areas: 
+      "avatar name name select"
+      "avatar notes notes select";
+      gap: .5rem;
+      align-items: center;
+
+      &-avatar {
+        width: 3rem;
+        grid-area: avatar;
+
+        border-radius: 50%;
+      }
+
+      &-userName {
+        grid-area: name;
+      }
+
+      &-notes {
+        grid-area: notes;
+      }
+
+      &-selectUser {
+        grid-area: select;
+      }
+    }
+  }
+
+  .addFriends {
+    
+    &-form {
+      display: grid;
+      grid-template-columns: 1fr 8rem;
+      grid-template-rows: auto;
+      gap: 2rem;
+    }
+    
+  }
+
+
+
+}
+
+.operation {
+  flex-basis: 60%;
+  
+  
+  
+}
+
+.ope-form {
+  display: grid;
+  grid-template-columns: 1fr 12rem;
+  gap: 1rem;
+
+  &--title {
+    grid-column: span 2;
+  }
+}
