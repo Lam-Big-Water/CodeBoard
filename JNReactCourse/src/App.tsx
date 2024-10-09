@@ -1,128 +1,168 @@
-import "./style.scss";
+import { ReactNode, useEffect, useRef, useState } from "react";
+
+import StartRating from "./StarRating";
+import { useKey } from "./useKey";
+import { useLocalStorageState } from "./useLocalStorageState";
+import { useMovies } from "./useMovies";
+
+type MoviesType = {
+  imdbID: number;
+  Poster: string;
+  Title: string;
+  Year: number;
+  
+}
 
 const App = () => {
-  return (
-    <div className="app">
-      <header className="headerLayout">
-        <LogoWithSearch />
-      </header>
+  const [query, setQuery] = useState("");
+  const {movies, isLoading, error} = useMovies(query);
+  console.log(movies)
 
-      <main className="mainLayout">
-        <ShowList />
-        {/* <SaveList /> */}
-        <MovieDescribe />
-        
-      </main>
-    </div>
+  return (
+    <>
+      <NavBar>
+        <Search query={query} setQuery={setQuery} />
+        <NumResults movies={movies} />
+      </NavBar>
+
+      <Main>
+        <Box>
+          {isLoading && <Loader />}
+          {!isLoading && !error && (
+            <MovieList movies={movies}/>
+          )}
+        </Box>
+      </Main>
+    </>
+  )
+}
+
+const Loader = () => {
+  return <p className="loader">Loading...</p>
+}
+
+const ErrorMessage = ({message}: any) => {
+  return (
+    <p className="error">
+      <span>⛔️</span> {message}
+    </p>
   );
-};
+}
 
-const LogoWithSearch = () => {
+// NavBar
+type NavBarProps = {
+  children: ReactNode;
+}
+
+const NavBar = ({children}: NavBarProps) => {
   return (
-    <div className="logoWithSearch">
-      <h3 className="logo">usePopcorn</h3>
-      <input className="searchInput" type="text" />
-      <span className="result">Found Results</span>
-    </div>
-  );
-};
+    <nav className="nav-bar">
+      <Logo />
+      {children}
+    </nav>
+  )
+}
 
-const ShowList = () => {
+const Logo = () => {
   return (
-    <div className="showList">
-      {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => (
-        <ShowListItem key={num} />
-      ))}
-    </div>
-  );
-};
-
-const ShowListItem = () => {
-  return (
-    <div className="showList-item">
-      <img
-        src="https://m.media-amazon.com/images/M/MV5BMTg2MjkwMTM0NF5BMl5BanBnXkFtZTcwMzc4NDg2NQ@@._V1_SX300.jpg"
-        alt=""
-        className="showList-item--photo"
-        width={60}
-        height={100}
-      />
-      <h3 className="showList-item--name">Crazy, Stupid, Love</h3>
-      <span className="showList-item--release">2001</span>
-    </div>
-  );
-};
-
-const SaveList = () => {
-  return (
-    <div className="saveList">
-      <SaveListNote />
-
-      {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => (
-        <SaveListItem key={num} />
-      ))}
-    </div>
-  );
-};
-
-const SaveListNote = () => {
-  return (
-    <div className="saveListNote">
-      <h3 className="saveListNote-title">Movies You Watched</h3>
-      <div className="saveListNote-info">
-        <span className="saveListNote-info--sum">0 Movies</span>
-        <span className="saveListNote-info--imdb">0.00</span>
-        <span className="saveListNote-info--your">0.00</span>
-        <span className="saveListNote-info--duration">0 Min</span>
-      </div>
-    </div>
-  );
-};
-
-const SaveListItem = () => {
-  return (
-    <div className="saveList-item">
-      <img
-        src="	https://m.media-amazon.com/images/M/MV5BMTg2MjkwMTM0NF5BMl5BanBnXkFtZTcwMzc4NDg2NQ@@._V1_SX300.jpg"
-        alt=""
-        className="saveList-item--photo"
-        width={60}
-        height={100}
-      />{" "}
-      <h3 className="saveList-item--name">Thor: Love and Thunder</h3>
-      <div className="item-info">
-        <span className="item--imdb">0.00</span>
-        <span className="item--your">0.00</span>
-        <span className="item--duration">0 Min</span>
-      </div>
-    </div>
-  );
-};
-
-const MovieDescribe = () => {
-  return (
-    <div className="movieDescribe">
-      <MovieDetails />
-
-      <p className="movieDescribe-info">
-        An unhinged American general orders a bombing attack on the Soviet
-        Union, triggering a path to nuclear holocaust that a war room full of
-        politicians and generals frantically tries to stop.
-      </p>
+    <div className="logo">
+      <span role="img">🍿</span>
+      <h1>usePopcorn</h1>
     </div>
   )
-};
+}
 
-const MovieDetails = () => {
+type SearchProps = {
+  query: string;
+  setQuery: (v: string) => void; 
+}
+
+const Search = ({query, setQuery}: SearchProps) => {
+  const inputEl = useRef<HTMLInputElement>(null);
+
+  useKey("Enter", function () {
+    if (document.activeElement === inputEl.current) return;
+    inputEl.current?.focus();
+    setQuery("");
+  });
+
   return (
-    <div className="details">
-      <img src="https://m.media-amazon.com/images/M/MV5BMTg2MjkwMTM0NF5BMl5BanBnXkFtZTcwMzc4NDg2NQ@@._V1_SX300.jpg" alt="" className="details-photo" width={180} height={300}/>
-      <h3 className="details-name">Crazy, Stupid, Love.</h3>
-      <p className="details-info">29 Jan 1964 . 95 min</p>
-      <p className="details-author">Comedy, War</p>
-      <p className="details-imdb">8.3 IMDb rating</p>
-    </div>
+    <input
+    className="search"
+    type="text"
+    placeholder="Search movies..."
+    value={query}
+    onChange={(e) => setQuery(e.target.value)}
+    ref={inputEl}
+    />
   );
-};
+}
 
-export default App;
+const NumResults = ({movies}: any) => {
+  return (
+    <p className="num-results">
+      Found <strong>{movies.length}</strong> results
+    </p>
+  )
+}
+// NavBar
+
+// Main
+type MainProps = {
+  children: ReactNode;
+}
+
+const Main = ({children}: MainProps) => {
+  return <main className="main">{children}</main>;
+}
+// Main
+
+
+// Box
+type BoxProps = {
+  children: ReactNode;
+}
+
+const Box = ({children}: BoxProps) => {
+  const [isOpen, setIsOpen] = useState(true);
+
+  return (
+    <div className="box">
+      <button className="btn-toggle" onClick={() => setIsOpen((open) => !open)}>
+        {isOpen ? "-" : "+"}
+      </button>
+
+      {isOpen && children}
+    </div>
+  )
+}
+// Box
+
+
+
+const MoviesList = ({movies}: any) => {
+  return (
+    <ul className="list">
+      {movies?.map((movie: any) => (
+        <Movie movie={movie} key={movie.imdbID} onSelectMovie={onSelectMovie} />
+      ))}
+    </ul>
+  )
+}
+
+const Movie = () => {
+  return (
+    <li>
+      <img src="" alt="" />
+      <h3></h3>
+      <div>
+        <p>
+          <span>🗓</span>
+          <span></span>
+        </p>
+      </div>
+    </li>
+  )
+}
+
+export default App
