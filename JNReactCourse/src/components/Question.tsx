@@ -1,7 +1,22 @@
+import QuestionCard from './QuestionCard';
 
-const Question = () => {
+import {QuestionTypes} from './App';
+
+type QuestionProps = {
+  question: QuestionTypes;
+  dispatch: Function;
+  answer: null | number;
+}
+
+const Question = ({question, dispatch, answer}: QuestionProps) => {
+
   return (
-    <div>Question</div>
+    <div>
+      <h4>{question.question}</h4>
+
+      <QuestionCard question={question} dispatch={dispatch} answer={answer}/>
+      
+    </div>
   )
 }
 

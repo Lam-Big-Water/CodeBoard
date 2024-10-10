@@ -9,7 +9,7 @@ import StartScreen from "./StartScreen";
 
 import Question from "./Question";
 
-type QuestionTypes = {
+export type QuestionTypes = {
   question: string;
   options: any[];
   correctOption: number;
@@ -23,11 +23,17 @@ type QuestionTypes = {
 type State = {
   questions: QuestionTypes[];
   status: string;
+  index: number;
+  answer: number | null;
+  points: number;
 };
 
 const initialState = {
   questions: [],
   status: "loading",
+  index: 0,
+  answer: null,
+  points: 0
 };
 
 interface DataReceived {
@@ -43,7 +49,12 @@ interface QuestionStart {
   type: "START";
 }
 
-type ActionType = DataReceived | DATAFailed | QuestionStart;
+interface NewAnswer {
+  type: "NEW_ANSWER";
+  payload: number | null;
+}
+
+type ActionType = DataReceived | DATAFailed | QuestionStart | NewAnswer;
 
 function reducer(state: State, action: ActionType) {
   switch (action.type) {
@@ -63,13 +74,24 @@ function reducer(state: State, action: ActionType) {
         ...state,
         status: "active",
       };
+    case "NEW_ANSWER":
+      const question = state.questions.at(state.index);
+      console.log(question)
+      return {
+        ...state,
+        answer: action.payload,
+        points: action.payload === question?.correctOption ? state.points + question.points : state.points,
+      };
     default:
       throw new Error("Action unknown");
   }
 }
 
 const App = () => {
-  const [{ questions, status }, dispatch] = useReducer(reducer, initialState);
+  const [{ questions, status, index, answer }, dispatch] = useReducer(
+    reducer,
+    initialState
+  );
 
   const numQuestions = questions.length;
 
@@ -92,7 +114,13 @@ const App = () => {
           {status === "ready" && (
             <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
           )}
-          {status === "active" && <Question />}
+          {status === "active" && (
+            <Question
+              question={questions[index]}
+              dispatch={dispatch}
+              answer={answer}
+            />
+          )}
         </>
       </Main>
     </div>
