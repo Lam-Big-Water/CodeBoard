@@ -8,6 +8,9 @@ import Fail from "./Fail";
 import StartScreen from "./StartScreen";
 
 import Question from "./Question";
+import NextButton from "./NextButton";
+import Progress from "./Progress";
+import FinishScreen from "./FinishScreen";
 
 export type QuestionTypes = {
   question: string;
@@ -26,6 +29,7 @@ type State = {
   index: number;
   answer: number | null;
   points: number;
+  highScore: number;
 };
 
 const initialState = {
@@ -33,7 +37,8 @@ const initialState = {
   status: "loading",
   index: 0,
   answer: null,
-  points: 0
+  points: 0,
+  highScore: 0
 };
 
 interface DataReceived {
@@ -54,7 +59,19 @@ interface NewAnswer {
   payload: number | null;
 }
 
-type ActionType = DataReceived | DATAFailed | QuestionStart | NewAnswer;
+interface NextQuestion {
+  type: "NEXT_QUESTION";
+}
+
+interface Finished {
+  type: "FINISHED";
+}
+
+interface RESTART {
+  type: "RESTART";
+}
+
+type ActionType = DataReceived | DATAFailed | QuestionStart | NewAnswer | NextQuestion | Finished | RESTART;
 
 function reducer(state: State, action: ActionType) {
   switch (action.type) {
@@ -82,18 +99,35 @@ function reducer(state: State, action: ActionType) {
         answer: action.payload,
         points: action.payload === question?.correctOption ? state.points + question.points : state.points,
       };
+    case "NEXT_QUESTION":
+      return {
+        ...state,
+        index: state.index + 1,
+        answer: null
+      }
+    case "FINISHED":
+      return {
+        ...state,
+        status: "finished",
+        highScore: state.points > state.highScore ? state.points : state.highScore,
+      }
+    case "RESTART":
+      return {
+        ...initialState, questions: state.questions, status: "ready"
+      }
     default:
       throw new Error("Action unknown");
   }
 }
 
 const App = () => {
-  const [{ questions, status, index, answer }, dispatch] = useReducer(
+  const [{ questions, status, index, answer, points, highScore }, dispatch] = useReducer(
     reducer,
     initialState
   );
 
   const numQuestions = questions.length;
+  const maxPossiblePoints = questions.reduce((prev, cur) => prev + cur.points, 0);
 
   useEffect(() => {
     fetch("http://localhost:8000/questions")
@@ -108,20 +142,23 @@ const App = () => {
       <Header />
 
       <Main>
-        <>
           {status === "loading" && <Loader />}
           {status === "error" && <Fail />}
           {status === "ready" && (
             <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
           )}
           {status === "active" && (
-            <Question
+            <>
+              <Progress index={index} numQuestions={numQuestions} points={points} maxPossiblePoints={maxPossiblePoints} answer={answer}/>
+              <Question
               question={questions[index]}
               dispatch={dispatch}
               answer={answer}
-            />
+              />
+              <NextButton dispatch={dispatch} answer={answer} index={index} numQuestions={numQuestions}/>
+            </>
           )}
-        </>
+          {status === "finished" && <FinishScreen points={points} maxPossiblePoints={maxPossiblePoints} highScore={highScore} dispatch={dispatch}/>}
       </Main>
     </div>
   );
