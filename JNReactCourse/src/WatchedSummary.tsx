@@ -1,23 +1,32 @@
-export default function WatchedSummary() {
+import { average, NewWatchedMovieType } from "./App";
+
+type WatchedSummaryProps = {
+  watched: NewWatchedMovieType[];
+}
+export default function WatchedSummary({watched}: WatchedSummaryProps) {
+  const avgImadbRating = average(watched.map((movie) => movie.imdbRating));
+  const avgUserRating = average(watched.map((movie) => movie.userRating));
+  const avgRuntime = average(watched.map((movie) => movie.runtime));
+
   return (
     <div className="summary">
       <h2>Movies you watched</h2>
       <div>
         <p>
           <span>#️⃣</span>
-          <span>0 movies</span>
+          <span>{watched.length} movies</span>
         </p>
         <p>
           <span>⭐️</span>
-          <span>0.0</span>
+          <span>{avgImadbRating.toFixed(2)}</span>
         </p>
         <p>
           <span>🌟</span>
-          <span>0.0</span>
+          <span>{avgUserRating.toFixed(2)}</span>
         </p>
         <p>
           <span>⏳</span>
-          <span>0 min</span>
+          <span>{avgRuntime.toFixed(2)} min</span>
         </p>
       </div>
     </div>

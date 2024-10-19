@@ -1,28 +1,34 @@
-export default function WatchedMovie() {
+import { NewWatchedMovieType } from "./App";
+
+type WatchedMovie = {
+  movie: NewWatchedMovieType;
+  onDeleteWatched: (id: number) => void;
+}
+
+export default function WatchedMovie({movie, onDeleteWatched}: WatchedMovie) {
   return (
     <li>
       <img
-        src="https://m.media-amazon.com/images/M/MV5BMTg2MjkwMTM0NF5BMl5BanBnXkFtZTcwMzc4NDg2NQ@@._V1_SX300.jpg"
-        alt=""
-        width={100}
+        src={movie.poster} alt={`${movie.title} poster`}
       />
-      <h3>Love</h3>
+      <h3>{movie.title}</h3>
       <div>
         <p>
           <span>⭐️</span>
-          <span>7.4</span>
+          <span>{movie.imdbRating}</span>
         </p>
         <p>
           <span>🌟</span>
-          <span>10.0</span>
+          <span>{movie.userRating}</span>
         </p>
         <p>
           <span>⏳</span>
-          <span>118 min</span>
+          <span>{movie.runtime} min</span>
         </p>
 
         <button
           className="btn-delete"
+          onClick={() => onDeleteWatched(movie.imdbID)}
         >
           X
         </button>

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import StartRating from "./StarRating";
-import { Loader } from "./App";
+import { Loader} from "./App";
+import { useKey } from "./useKey";
 import { DetailsType, NewWatchedMovieType } from "./App";
 
 const KEY = "f84fc31d";
@@ -19,7 +20,7 @@ type WatchedType = {
   poster: string;
   runtime: number;
   title: string;
-  userRating: string;
+  userRating: number;
   year: string;
 }[];
 
@@ -31,7 +32,7 @@ export default function MovieDetails({
 }: MovieDetailsProps) {
   const [movie, setMovie] = useState<DetailsType | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [userRating, setUserRating] = useState("");
+  const [userRating, setUserRating] = useState(0);
 
   const countRef = useRef(0);
   console.log(countRef.current)
@@ -94,6 +95,8 @@ export default function MovieDetails({
     onCloseMovie();
   }
 
+  useKey("Escape", onCloseMovie);
+  
   return (
     <div className="details">
       {isLoading ? (
@@ -101,7 +104,7 @@ export default function MovieDetails({
       ) : (
         <>
           <header>
-            <button className="btn-back">&larr;</button>
+            <button className="btn-back" onClick={onCloseMovie}>&larr;</button>
             <img src={movie?.Poster} alt={`Poster of ${movie} movie`} />
             <div className="details-overview">
               <h2>{movie?.Title}</h2>
@@ -120,7 +123,7 @@ export default function MovieDetails({
             <div className="rating">
               {!isWatched ? (
                 <>
-                  <StartRating maxRating={10} size={24} onSetRating={setUserRating}/>
+                  <StartRating maxRating={10} size={24} onSetRating={setUserRating} defaultRating={0}/>
                   <button className="btn-add" onClick={handleAdd}>
                     + Add to list
                   </button>

@@ -12,12 +12,12 @@ const starContainerStyle = {
 
 type StartRatingProps = {
   maxRating: number;
-  defaultRating?: number;
+  defaultRating: number;
   color?: string;
   size: number;
   messages?: [];
   className?: string;
-  onSetRating: (rating: number) => void | null;
+  onSetRating: (rating: number) => void;
 };
 
 const StartRating = ({

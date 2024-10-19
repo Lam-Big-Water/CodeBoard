@@ -8,7 +8,7 @@ import MovieDetails from "./MovieDetails";
 import WatchedSummary from "./WatchedSummary";
 import WatchedMoviesList from "./WatchedMoviesList";
 
-const average = (arr: []) =>
+export const average = (arr: any[]) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
 type MoviesType = {
@@ -48,11 +48,10 @@ export type NewWatchedMovieType = {
   poster: string | undefined;
   imdbRating: number;
   runtime: number;
-  userRating: string;
+  userRating: number;
   countRatingDecisions: number;
 }
 
-const KEY = "f84fc31d";
 
 const App = () => {
   const [query, setQuery] = useState("");
@@ -73,8 +72,8 @@ const App = () => {
     setWatched((watched: []) => [...watched, newWatchedMovie]);
   }
 
-  function handleDeleteWatched (id: any) {
-    setWatched((watched: any) => watched.filter((movie: any) => movie.imdbID !== id));
+  function handleDeleteWatched (id: number) {
+    setWatched((watched: []) => watched.filter((movie: NewWatchedMovieType) => movie.imdbID !== id));
   }
 
   return (
@@ -103,9 +102,10 @@ const App = () => {
           />
           ) : (
             <>
-              <WatchedSummary />
+              <WatchedSummary watched={watched}/>
               <WatchedMoviesList
-                
+                watched={watched}
+                onDeleteWatched={handleDeleteWatched}
               />
             </>
           )}
