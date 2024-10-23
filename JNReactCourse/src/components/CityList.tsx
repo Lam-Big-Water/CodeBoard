@@ -3,13 +3,15 @@ import Spinner from "./Spinner";
 import Message from "./Message";
 import { CitiesTypes } from "../App";
 import styles from "./CityList.module.css";
+import { useCities } from "../contexts/CitiesContext";
 
 type CityListProps = {
     cities: CitiesTypes[];
     isLoading: boolean;
 }
 
-const CityList = ({cities, isLoading}: CityListProps) => {
+const CityList = () => {
+  const {cities, isLoading}: CityListProps = useCities();
    if (isLoading) return <Spinner />;
 
    if (!cities.length) return (

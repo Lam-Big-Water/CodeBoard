@@ -3,13 +3,16 @@ import Message from "./Message";
 import { CitiesTypes } from "../App";
 import styles from "./CountryList.module.css";
 import CountryItem from "./CountryItem";
+import { useCities } from "../contexts/CitiesContext";
 
 type CountryListProps = {
     cities: CitiesTypes[];
     isLoading: boolean;
 }
 
-const CountryList = ({cities, isLoading}: CountryListProps) => {
+const CountryList = () => {
+  const {cities, isLoading}: CountryListProps = useCities();
+
    if (isLoading) return <Spinner />;
 
    if (!cities.length) return (

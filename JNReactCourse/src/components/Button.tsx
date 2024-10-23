@@ -1,9 +1,9 @@
-import { ReactNode } from "react";
+import { ReactNode, MouseEvent } from "react";
 import styles from "./Button.module.css";
 
 type ButtonProps = {
     children: ReactNode;
-    onClick?: () => void;
+    onClick?: (e: MouseEvent) => void;
     type: string;
 }
 
