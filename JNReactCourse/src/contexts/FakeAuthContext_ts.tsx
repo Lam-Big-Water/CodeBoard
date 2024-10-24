@@ -1,16 +1,26 @@
 import { ReactNode, createContext, useContext, useReducer } from "react";
 
-const AuthContext = createContext<State | undefined>(undefined);
+const AuthContext = createContext<CreateContextType | undefined>(undefined);
 
-// type UserType = {
-//     name: string;
-//     email: string;
-//     password: string;
-//     avatar: string;
-// }
+type UserType = {
+    name: string;
+    email: string;
+    password: string;
+    avatar: string;
+}
 
 type State = {
-    user: null | string;
+    user: null | UserType;
+    isAuthenticated: boolean;
+}
+
+type MethodType = {
+    login: (email: string, password: string) => void;
+    logout: () => void;
+}
+
+type CreateContextType = {
+    user: null | UserType;
     isAuthenticated: boolean;
     login: (email: string, password: string) => void;
     logout: () => void;
@@ -18,7 +28,7 @@ type State = {
 
 interface LoginAction {
     type: "login";
-    payload: string;
+    payload: UserType;
 }
 
 interface LogOutAction {
@@ -59,7 +69,7 @@ function AuthProvider ({children}:AuthProvider) {
 
     function login (email: string, password: string) {
         if (email === FAKE_USER.email && password === FAKE_USER.password)
-            dispatch({type: "login", payload: FAKE_USER.name})
+            dispatch({type: "login", payload: FAKE_USER})
     }
 
     function logout () {
