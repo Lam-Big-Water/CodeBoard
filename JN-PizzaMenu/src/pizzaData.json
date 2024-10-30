@@ -1,0 +1,46 @@
+{
+    "pizzas": [
+        {
+            "name": "Focaccia",
+            "photo": "https://fast-react-pizza-menu.netlify.app/pizzas/focaccia.jpg",
+            "describe": "Bread with italian olive oil and rosemary",
+            "price": 6,
+            "sold": false
+        },
+        {
+            "name": "Pizza Margherita",
+            "photo": "https://fast-react-pizza-menu.netlify.app/pizzas/margherita.jpg",
+            "describe": "Tomato and mozarella",
+            "price": 10,
+            "sold": false
+        },
+        {
+            "name": "Pizza Spinaci",
+            "photo": "https://fast-react-pizza-menu.netlify.app/pizzas/spinaci.jpg",
+            "describe": "Tomato, mozarella, spinach, and ricotta cheese",
+            "price": 12,
+            "sold": false
+        },
+        {
+            "name": "Pizza Funghi",
+            "photo": "https://fast-react-pizza-menu.netlify.app/pizzas/funghi.jpg",
+            "describe": "Tomato, mozarella, mushrooms, and onion",
+            "price": 12,
+            "sold": false
+        },
+        {
+            "name": "Pizza Salamino",
+            "photo": "https://fast-react-pizza-menu.netlify.app/pizzas/salamino.jpg",
+            "describe": "Tomato, mozarella, and pepperoni",
+            "price": 6,
+            "sold": true
+        },
+        {
+            "name": "Pizza Prosciutto",
+            "photo": "https://fast-react-pizza-menu.netlify.app/pizzas/prosciutto.jpg",
+            "describe": "Tomato, mozarella, ham, aragula, and burrata cheese",
+            "price": 18,
+            "sold": false
+        }
+    ]
+}
