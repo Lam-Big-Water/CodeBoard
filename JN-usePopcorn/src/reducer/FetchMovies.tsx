@@ -8,7 +8,7 @@ export type MovieType = {
 }
 
 type States = {
-    Search: MovieType[];
+    search: MovieType[];
     isLoading: boolean;
     isError: boolean;
 }
@@ -32,7 +32,7 @@ export function fetchReducer (state: States, action: Actions) {
                 ...state,
                 isLoading: false,
                 isError: false,
-                Search: action.payload,
+                search: action.payload,
             }
 
         case "failed":
