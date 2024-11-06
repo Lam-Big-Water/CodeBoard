@@ -72,7 +72,6 @@ type StarProps = {
 }
 
 const Star = ({full, color, size, onRate, onHoverIn, onHoverOut}: StarProps) => {
-  console.log(full)
   const starStyle = {
     width: `${size}px`,
     height: `${size}px`,
