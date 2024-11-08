@@ -1,6 +1,16 @@
+import { useState } from "react";
 import Star from "./Star";
 
-const Description = () => {
+import { MovieType } from "../reducer/FetchMovies";
+
+type DescriptionProps = {
+  selected: MovieType;
+}
+
+const Description = ({selected}: DescriptionProps) => {
+
+  const [userRating, setUserRating] = useState(0);
+
   return (
     <div className="flex flex-col p-4 gap-4">
       <div className="grid grid-cols-3 grid-rows-4">
@@ -9,13 +19,13 @@ const Description = () => {
           alt=""
           className="w-32 col-start-1 col-end-2 row-span-4"
         />
-        <h1 className="col-span-2 row-span-1">Crazy, Stupid, Love.</h1>
-        <p className="col-span-2 row-span-1">29 Jul 2011 • 118 min</p>
-        <p className="col-span-2 row-span-1">Comedy, Drama, Romance</p>
+        <h1 className="col-span-2 row-span-1">{selected.Title}</h1>
+        <p className="col-span-2 row-span-1">{selected.Year} • 118 min</p>
+        <p className="col-span-2 row-span-1">{selected.Type}</p>
         <p className="col-span-2 row-span-1">7.4 IMDb rating</p>
       </div>
 
-      <Star />
+      <Star maxRating={5} size={24} onSetRating={setUserRating} defaultRating={0}/>
 
       <div className="text-sm">
         <p>

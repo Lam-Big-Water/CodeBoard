@@ -6,7 +6,6 @@ type StarRatingProps = {
     color?: string;
     size: number;
     messages?: [];
-    className?: string;
     onSetRating: (rating: number) => void;
 }
 
@@ -14,7 +13,6 @@ const StarRating = ({
   maxRating = 5,
   color = "#fcc419",
   size = 48,
-  className = "",
   messages = [],
   defaultRating = 0,
   onSetRating,
@@ -30,8 +28,8 @@ const StarRating = ({
     const textStyle = {
       lineHeight: "1",
       margin: "0",
-      color,
-      fontSize: `${size / 1.5}px`
+      color: "black",
+      fontSize: `${size / 2}px`
     }
 
   return (
