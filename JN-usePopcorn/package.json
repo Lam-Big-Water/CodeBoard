@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "server": "json-server --watch src/data.json --port 8000"
+    "server": "json-server --watch src/data.json --port 8000",
+    "server2": "json-server --watch src/data2.json --port 9000"
   },
   "dependencies": {
     "json-server": "^1.0.0-beta.3",

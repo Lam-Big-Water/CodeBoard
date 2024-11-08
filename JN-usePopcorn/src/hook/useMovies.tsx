@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 
 import { MovieType, Actions, fetchReducer } from "../reducer/FetchMovies";
 
@@ -53,37 +53,51 @@ import { MovieType, Actions, fetchReducer } from "../reducer/FetchMovies";
 // }
 
 
-export const useFakeMovies = () => {
-    const [state, dispatch] = useReducer(fetchReducer, {search: [], isLoading: false, isError: false})
+export const useFakeMovies = (query: string) => {
+    const [movies, setMovies] = useState<MovieType[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isError, setIsError] = useState("");
+
     const controller = new AbortController();
     useEffect(() => {
         const fetchFake = async () => {
+            setIsLoading(true);
+            
             try {
-                dispatch({type: "fetching"});
 
                 const res = await fetch(
-                    `http://localhost:8000/search`,
+                    `http://localhost:8000/${query}`,
                     {signal: controller.signal}
                 )
                 
                 if (!res.ok) throw new Error("Something Wrong...");
                 const data = await res.json();
+                
+                if (data.Response === "False") throw new Error("Not Found");
 
-                dispatch({type: "successful", payload: data})
+                setMovies(data);
 
-            } catch(e: any) {
-                if (e.name !== "AbortError") {
-                    console.log(e.message);
-                    dispatch({type: "failed"});
+
+            } catch(err: any) {
+                if (err.name !== "AbortError") {
+                    console.log(err.message);
+                    setIsError(err.message);
                 }
+            } finally {
+                setIsLoading(false);
             }
+        }
+
+        if (query !== "search") {
+            setMovies([]);
+            return;
         }
 
         fetchFake();
 
         return () => controller.abort();
-    }, [])
+    }, [query])
 
-    return {state};
+    return {movies, isLoading, isError};
 }
 

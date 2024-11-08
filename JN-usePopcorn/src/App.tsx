@@ -19,8 +19,8 @@ export default function App() {
   }
 
   // const { state } = useMovies(search);
-  const {state} = useFakeMovies();
-  console.log(state)
+  const {movies, isLoading, isError} = useFakeMovies(search);
+  console.log(movies)
 
   return (
     <div className="w-full h-screen p-8 bg-slate-300">
@@ -29,10 +29,10 @@ export default function App() {
       <div className="flex flex-row w-full h-screen gap-10 py-8">
         <div className="flex-1 bg-yellow-200">
           <div className="flex flex-col gap-4 p-4">
-            {state.isLoading ? (
+            {isLoading ? (
               <p>Loading...</p>
             ) : (
-              state.search.map((s) => (
+              movies.map((s) => (
                 <Movie key={s.imdbID} item={s} setSelected={setSelected} />
               ))
             )}
@@ -46,7 +46,7 @@ export default function App() {
             <Movie />
             <Movie /> */}
 
-          <Description selected={selected}/>
+          {selected && <Description/>}
         </div>
       </div>
     </div>
