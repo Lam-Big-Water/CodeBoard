@@ -4,18 +4,25 @@ import SearchBar from "./components/SearchBar";
 import Movie from "./components/Movie";
 import WatchedBar from "./components/WatchedBar";
 import Description from "./components/Description";
+import Watched from "./components/Watched";
 
 import { useFakeMovies } from "./hook/useMovies";
 
 import { MovieType } from "./reducer/FetchMovies";
+import { useLocalStorage } from "./hook/useLocalStorage";
 
 export default function App() {
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<MovieType | null>(null);
-  console.log(selected)
+  const [watched, setWatched] = useLocalStorage([], "watched");
+  console.log(watched)
 
   function handleSearch(e: ChangeEvent<HTMLInputElement>) {
     return setSearch(e.target.value);
+  }
+
+  function handleAddWatched (movie: MovieType) {
+    setWatched((watched: any) => [...watched, movie])
   }
 
   // const { state } = useMovies(search);
@@ -45,8 +52,9 @@ export default function App() {
             <Movie />
             <Movie />
             <Movie /> */}
-
-          {selected && <Description/>}
+          <WatchedBar />
+          {selected && <Description onWatched={handleAddWatched}/>}
+          {/* <Watched /> */}
         </div>
       </div>
     </div>

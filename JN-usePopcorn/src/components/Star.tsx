@@ -1,64 +1,68 @@
 import { useState } from "react";
 
 type StarRatingProps = {
-    maxRating: number;
-    defaultRating: number;
-    color?: string;
-    size: number;
-    messages?: [];
-    onSetRating: (rating: number) => void;
-}
+  maxRating: number;
+  defaultRating: number;
+  color?: string;
+  size: number;
+  messages?: [];
+  onSetRating: (rating: number) => void;
+  onWatched: (movie: any) => void
+  description: any;
+};
 
 const StarRating = ({
   maxRating = 5,
   color = "#fcc419",
-  size = 48,
+  size = 68,
   messages = [],
   defaultRating = 0,
   onSetRating,
+  onWatched,
+  description
 }: StarRatingProps) => {
-    const [rating, setRating] = useState(defaultRating);
-    const [tempRating, setTempRating] = useState(0);
+  const [rating, setRating] = useState(defaultRating);
+  const [tempRating, setTempRating] = useState(0);
 
-    const handleRating = (rating: number) => {
-      setRating(rating);
-      onSetRating(rating);
-    }
+  const handleRating = (rating: number) => {
+    setRating(rating);
+    onSetRating(rating);
+  };
 
-    const textStyle = {
-      lineHeight: "1",
-      margin: "0",
-      color: "black",
-      fontSize: `${size / 2}px`
-    }
+  const textStyle = {
+    lineHeight: "1",
+    margin: "0",
+    color: "black",
+    fontSize: `${size / 1}px`,
+  };
 
   return (
     <div className="flex flex-col">
-        <div className="flex flex-row gap-4 justify-around bg-red-300">
-            {
-              Array.from({length: maxRating}, (_, i) => (
-                <Star 
-                  key={i}
-                  full={tempRating ? tempRating >= i + 1 : rating >= i + 1}
-                  onRate={() => handleRating(i + 1)}
-                  onHoverIn={() => setTempRating(i + 1)}
-                  onHoverOut={() => setTempRating(0)}
-                  color={color}
-                  size={size}
-                />
-              ))
-            }
-        </div>
+      <div className="flex flex-row gap-16 items-center bg-white">
+        {Array.from({ length: maxRating }, (_, i) => (
+          <Star
+            key={i}
+            full={tempRating ? tempRating >= i + 1 : rating >= i + 1}
+            onRate={() => handleRating(i + 1)}
+            onHoverIn={() => setTempRating(i + 1)}
+            onHoverOut={() => setTempRating(0)}
+            color={color}
+            size={size}
+          />
+        ))}
         <p style={textStyle}>
           {messages.length === maxRating
             ? messages[tempRating ? tempRating - 1 : rating - 1]
-            : tempRating || rating || ""
-          }
+            : tempRating || rating || ""}
         </p>
-        <button className="p-4 outline-none rounded-sm bg-blue-900">+ Add to list</button>
+      </div>
+
+      {!rating || <button className="p-4 outline-none rounded-sm bg-blue-900" onClick={() => onWatched(description)}>
+        + Add to list
+      </button>}
     </div>
-  )
-}
+  );
+};
 
 type StarProps = {
   full: boolean;
@@ -67,15 +71,22 @@ type StarProps = {
   onRate: () => void;
   onHoverIn: () => void;
   onHoverOut: () => void;
-}
+};
 
-const Star = ({full, color, size, onRate, onHoverIn, onHoverOut}: StarProps) => {
+const Star = ({
+  full,
+  color,
+  size,
+  onRate,
+  onHoverIn,
+  onHoverOut,
+}: StarProps) => {
   const starStyle = {
     width: `${size}px`,
     height: `${size}px`,
     display: "block",
     cursor: "pointer",
-  }
+  };
 
   return (
     <span
@@ -109,9 +120,8 @@ const Star = ({full, color, size, onRate, onHoverIn, onHoverOut}: StarProps) => 
           />
         </svg>
       )}
-
     </span>
-  )
-}
+  );
+};
 
-export default StarRating
+export default StarRating;

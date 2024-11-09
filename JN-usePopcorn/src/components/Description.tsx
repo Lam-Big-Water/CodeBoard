@@ -4,8 +4,6 @@ import Star from "./Star";
 
 import {useFakeMovies} from "../hook/useMovies";
 
-const Description = () => {
-
 type DescriptionType = {
   Title: string;
   Poster: string;
@@ -18,7 +16,11 @@ type DescriptionType = {
   Director: string;
 }
 
+type DescriptionProps = {
+  onWatched: (movie: DescriptionType) => void;
+}
 
+const Description = ({onWatched}: DescriptionProps) => {
   const [userRating, setUserRating] = useState(0);
   const [description, setDescription] = useState<DescriptionType | null>(null);
   console.log(description)
@@ -52,7 +54,7 @@ type DescriptionType = {
         <p className="col-span-2 row-span-1">{description?.imdbRating}</p>
       </div>
 
-      <Star maxRating={5} size={24} onSetRating={setUserRating} defaultRating={0}/>
+      <Star maxRating={5} size={64} onSetRating={setUserRating} defaultRating={0} onWatched={onWatched} description={description}/>
 
       <div className="text-sm">
         <p>
