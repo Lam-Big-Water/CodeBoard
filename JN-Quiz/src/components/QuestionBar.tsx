@@ -1,19 +1,29 @@
+import { useQuiz } from "../context/QuizContext";
 
 const QuestionBar = () => {
+  const { question, dispatch, answer } = useQuiz();
+
+  const hasAnswered = answer !== null;
+
   return (
     <div className="flex flex-col bg-emerald-300 p-4 gap-4">
-        <h1>Which is the most popular JS framework?</h1>
-        <div className="flex-1 text-center p-1 bg-cyan-300 text-cyan-50">React</div>
-        <div className="flex-1 text-center p-1 bg-cyan-300 text-cyan-50">Vite</div>
-        <div className="flex-1 text-center p-1 bg-cyan-300 text-cyan-50">Vue</div>
-        <div className="flex-1 text-center p-1 bg-cyan-300 text-cyan-50">Solid</div>
+      <h1>{question.question}</h1>
 
-        <div className="flex flex-row justify-between pt-16">
-            <div className="border-solid border-2 border-black">07:27</div>
-            <div className="border-solid border-2 border-black">Next</div>
-        </div>
+      {question.options.map((option, index) => (
+        <button
+          key={index}
+          className={`flex-1 text-center bg-blue-200 p-1 ${index === answer ? " text-green-500" : "text-cyan-50"}`}
+          onClick={() => dispatch({type: "newAnswer", payload: index})}
+          disabled={hasAnswered}
+        >
+          {option}
+        </button>
+      ))}
     </div>
-  )
-}
+    // <div className="flex flex-row justify-between pt-16">
+    //     <div className="border-solid border-2 border-black">07:27</div>
+    // </div>
+  );
+};
 
-export default QuestionBar
+export default QuestionBar;
