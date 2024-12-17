@@ -1,5 +1,7 @@
 import Customer from "./features/customers/Customer";
 import CreateCustomer from "./features/customers/CreateCustomer";
+import AccountOperations from "./features/accounts/AccountOperations";
+import BalanceDisplay from "./features/accounts/BalanceDisplay";
 import { useSelector } from "react-redux";
 
 const App = () => {
@@ -7,7 +9,12 @@ const App = () => {
   return (
     <div>
       <h1>The Bank</h1>
-      {fullName === "" ? <CreateCustomer /> : <Customer />}
+      {fullName === "" ?( <CreateCustomer />) : 
+      (<>
+        <Customer />
+        <AccountOperations />
+        <BalanceDisplay />
+      </>)}
     </div>
   )
 }
